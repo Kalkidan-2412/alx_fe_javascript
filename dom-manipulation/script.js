@@ -174,6 +174,20 @@ function populateCategories() {
     categorySelect.appendChild(option);
   });
 }
+function exportToJsonFile(data, filename = 'quotes.json') {
+  const jsonString = JSON.stringify(data, null, 2); // Pretty-print with indentation
+  const blob = new Blob([jsonString], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+
+  const anchor = document.createElement('a');
+  anchor.href = url;
+  anchor.download = filename;
+  document.body.appendChild(anchor);
+  anchor.click();
+
+  document.body.removeChild(anchor);
+  URL.revokeObjectURL(url);
+}
 
 function showRandomQuote() {
   const selectedCategory = categorySelect.value;
@@ -238,6 +252,10 @@ function syncQuotes() {
   showNotification("Quotes synced with server!");
   filterQuotesByCategory(); // refresh view with current filter
 }
+document.getElementById('exportButton').addEventListener('click', () => {
+  const quotes = JSON.parse(localStorage.getItem('quotes')) || [];
+  exportToJsonFile(quotes);
+});
 
 // DOM references
 const quoteDisplay = document.getElementById("quoteDisplay");

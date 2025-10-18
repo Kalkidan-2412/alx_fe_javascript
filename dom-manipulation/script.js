@@ -256,6 +256,30 @@ document.getElementById('exportButton').addEventListener('click', () => {
   const quotes = JSON.parse(localStorage.getItem('quotes')) || [];
   exportToJsonFile(quotes);
 });
+document.getElementById('importFile').addEventListener('change', function (event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = function (e) {
+    try {
+      const importedQuotes = JSON.parse(e.target.result);
+      const existingQuotes = JSON.parse(localStorage.getItem('quotes')) || [];
+      const mergedQuotes = [...existingQuotes, ...importedQuotes];
+
+      localStorage.setItem('quotes', JSON.stringify(mergedQuotes));
+      showNotification("Quotes imported successfully!");
+      filterQuotesByCategory(); // refresh UI if needed
+    } catch (error) {
+      console.error("Error reading file:", error);
+      showNotification("Failed to import quotes.");
+    }
+  };
+
+  reader.readAsText(file);
+});
+
 
 // DOM references
 const quoteDisplay = document.getElementById("quoteDisplay");

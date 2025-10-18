@@ -58,6 +58,52 @@ function addQuote() {
     alert("Please enter both quote and category.");
     return;
   }
+function createAddQuoteForm() {
+  const form = document.createElement('form');
+  form.id = 'addQuoteForm';
+
+  form.innerHTML = `
+    <h3>Add a New Quote</h3>
+    <label>
+      Quote:
+      <textarea name="quoteText" required></textarea>
+    </label>
+    <label>
+      Author:
+      <input type="text" name="author" required />
+    </label>
+    <label>
+      Category:
+      <select name="category">
+        <option value="inspirational">Inspirational</option>
+        <option value="funny">Funny</option>
+        <option value="life">Life</option>
+      </select>
+    </label>
+    <button type="submit">Add Quote</button>
+  `;
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const quote = {
+      text: form.quoteText.value.trim(),
+      author: form.author.value.trim(),
+      category: form.category.value,
+      updatedAt: new Date().toISOString(),
+      id: Date.now().toString()
+    };
+
+    const quotes = JSON.parse(localStorage.getItem('quotes')) || [];
+    quotes.push(quote);
+    localStorage.setItem('quotes', JSON.stringify(quotes));
+
+    showNotification("Quote added locally!");
+    form.reset();
+    filterQuotesByCategory(); // refresh UI
+  });
+
+  document.body.appendChild(form);
+}
 
   quotes.push({ text: newText, category: newCategory });
   textInput.value = "";
@@ -278,6 +324,9 @@ document.getElementById('importFile').addEventListener('change', function (event
   };
 
   reader.readAsText(file);
+});
+window.addEventListener('DOMContentLoaded', () => {
+  createAddQuoteForm();
 });
 
 

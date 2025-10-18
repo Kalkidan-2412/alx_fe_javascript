@@ -26,6 +26,12 @@
     <input id="newQuoteCategory" type="text" placeholder="Enter quote category" />
     <button id="addQuoteBtn">Add Quote</button>
   </div>
+<!-- Add below your existing buttons -->
+<div class="form-section">
+  <h3>Import / Export Quotes</h3>
+  <input type="file" id="importFile" accept=".json" onchange="importFromJsonFile(event)" />
+  <button id="exportBtn">Export Quotes</button>
+</div>
 
   <script src="script.js"></script>
 </body>

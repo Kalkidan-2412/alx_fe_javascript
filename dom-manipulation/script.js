@@ -54,6 +54,8 @@ function addQuote() {
   populateCategories();
   alert("Quote added successfully!");
 }
+document.getElementById("addQuoteBtn").addEventListener("click", addQuote);
+document.getElementById("newQuote").addEventListener("click", showRandomQuote);
 
 newQuoteBtn.addEventListener("click", showRandomQuote);
 addQuoteBtn.addEventListener("click", addQuote);

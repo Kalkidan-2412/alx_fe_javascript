@@ -123,6 +123,8 @@ async function syncQuotes() {
     } else {
       conflictsResolved = true;
     }
+    showNotification("Quotes synced with server!");
+
   });
 
   quotes = mergedQuotes;
@@ -208,6 +210,16 @@ function addQuote() {
   textInput.value = "";
   categoryInput.value = "";
   alert("Quote added successfully!");
+}
+function showNotification(message) {
+  const notification = document.createElement('div');
+  notification.className = 'notification';
+  notification.innerText = message;
+  document.body.appendChild(notification);
+
+  setTimeout(() => {
+    notification.remove();
+  }, 3000);
 }
 
 // DOM references

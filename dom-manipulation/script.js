@@ -3,6 +3,8 @@ const quotes = [
   { text: "Simplicity is the ultimate sophistication.", category: "Design" },
   { text: "Code is like humor. When you have to explain it, it’s bad.", category: "Programming" }
 ];
+const categoryFilter = document.getElementById('categoryFilter');
+categoryFilter.addEventListener('change', filterQuotesByCategory);
 
 const quoteDisplay = document.getElementById("quoteDisplay");
 const newQuoteBtn = document.getElementById("newQuote");
@@ -33,6 +35,16 @@ function showRandomQuote() {
 
   const randomIndex = Math.floor(Math.random() * filteredQuotes.length);
   quoteDisplay.textContent = `"${filteredQuotes[randomIndex].text}" — ${filteredQuotes[randomIndex].category}`;
+}
+function filterQuotesByCategory() {
+  const selectedCategory = categoryFilter.value;
+  const allQuotes = JSON.parse(localStorage.getItem('quotes')) || [];
+
+  const filteredQuotes = selectedCategory === 'all'
+    ? allQuotes
+    : allQuotes.filter(q => q.category === selectedCategory);
+
+  displayQuotes(filteredQuotes);
 }
 
 function addQuote() {
@@ -220,6 +232,11 @@ function showNotification(message) {
   setTimeout(() => {
     notification.remove();
   }, 3000);
+}
+function syncQuotes() {
+  // ... your existing sync logic ...
+  showNotification("Quotes synced with server!");
+  filterQuotesByCategory(); // refresh view with current filter
 }
 
 // DOM references
